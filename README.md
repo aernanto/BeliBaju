@@ -4,7 +4,7 @@ NPM: 2306165963
 
 Kelas: PBP C
 
-Link PWS: 
+Link PWS: http://aimee-callista-ecommercebelibaju2.pbp.cs.ui.ac.id/
 
 E-Commerce: Clothing
 
