@@ -244,7 +244,7 @@ git push pws main:master
 
 
 # Request Client
-![image](https://github.com/user-attachments/assets/7a29ba75-36cd-445d-816c-6d06ccc3b5c0)
+![IMG_0633](https://github.com/user-attachments/assets/a2690d3f-67bf-4653-8663-2abbf0c2c7b5)
 Pertama-tama, sebelum diteruskan ke server Django, user atau client mengakses URL melalui browser. Django kemudian akan memeriksa urls.py untuk mencocokkan pola URL dengan permintaan tersebut. Jika cocok, permintaan diteruskan ke views.py yang mengandung logika bisnis dari sebuah app. Data dari database bisa diambil melalui model yang ada di models.py, yang mengelola dan mengambil data dari database, misalnya dalam hal BeliBaju, data produk diambil dari katalog.
 
 Setelah data diambil oleh views.py, Django akan menggunakan template HTML untuk me-render data agar bisa ditampilkan ke client. Hasil render tersebut dikirim sebagai respons HTTP ke browser pengguna, di mana halaman yang sudah diproses akan ditampilkan. 
