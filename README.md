@@ -11,7 +11,9 @@ E-Commerce: Clothing
 Nama e-commerce: BeliBaju
 
 
-## **Langkah Pertama**
+# Langkah Pengerjaan
+----------------------------
+### **Langkah Pertama**
 - Pertama-tama, saya telah membuat direktori baru di github dan direktori lokal.
 - Saya mengisi berkas README.md sebelum saya update dengan informasi yang dibutuhkan.
 - Saya menginisialisasi Git pada command prompt, ```git init```.
@@ -239,3 +241,28 @@ git add, commit seperti awal
 git branch -M main
 git push pws main:master
 ```
+
+
+# Request Client
+![image](https://github.com/user-attachments/assets/7a29ba75-36cd-445d-816c-6d06ccc3b5c0)
+Pertama-tama, sebelum diteruskan ke server Django, user atau client mengakses URL melalui browser. Django kemudian akan memeriksa urls.py untuk mencocokkan pola URL dengan permintaan tersebut. Jika cocok, permintaan diteruskan ke views.py yang mengandung logika bisnis dari sebuah app. Data dari database bisa diambil melalui model yang ada di models.py, yang mengelola dan mengambil data dari database, misalnya dalam hal BeliBaju, data produk diambil dari katalog.
+
+Setelah data diambil oleh views.py, Django akan menggunakan template HTML untuk me-render data agar bisa ditampilkan ke client. Hasil render tersebut dikirim sebagai respons HTTP ke browser pengguna, di mana halaman yang sudah diproses akan ditampilkan. 
+
+
+# Penggunaan Git
+Git sendiri merupakan tool dalam Software Development untuk membantu tim bekerja sama secara efisien. Dalam Git, developer dapat menyimpan, mengatur, dan berbagi perubahan kode secara mudah karena memungkinkan developer untuk membuat branch sendiri dalam pengerjaan suatu fitur atau perbaikan, lalu menggabungkannya kembali ke proyek utama setelah selesai, tanpa mengganggu pekerjaan orang lain. 
+
+Tak hanya itu, Git dapat medukung kerja sama secara lebih seamless karena terdapat fitur seperti fork, clone, merge, dan pull request yang memudahkan kontribusi dan integrasi dari banyak orang. Selain itu, Git juga mendukung adanya rollback jika terjadi kesalahan, sehingga tim dapat dengan cepat memperbaiki masalah tanpa kehilangan data penting. 
+
+
+# Penggunaan Django
+Django, seperti yang telah diketahui, mendukung pembuatan aplikasi web yang kuat dan efisien. Django memungkinkan pembuatan platform interaktif antara perusahaan dan user, seperti yang terlihat pada contoh situs e-commerce, blog pribadi, dan portal berita. Dengan Django, perusahaan dapat menjangkau audiens secara efektif melalui situs web yang user-friendly. 
+
+Selain itu, Django sangat cocok untuk pemula karena dokumentasinya yang lengkap dan terstruktur dengan baik, sehingga sangat memudahkan proses pembelajaran. Django juga berintegrasi secara erat dengan Python, bahasa pemrograman yang telah dipelajari pada mata kuliah DDP-1, sehingga saya sebagai pemula bisa me-review kembali konsep Python yang sudah "berdebu". Dengan banyaknya library dan fitur bawaan, seperti autentikasi pengguna dan manajemen database, Django memungkinkan developer untuk fokus pada logika aplikasi tanpa harus memikirkan hal-hal teknis yang rumit.
+
+
+# ORM pada Django
+Object-Relational Mapper (ORM) pada Django merupakan salah satu pilar utama Django yang menyediakan abstraksi untuk bekerja dengan basis data, dengan cara yang sebagian besar tidak bergantung pada jenis basis data tertentu. Dengan menggunakan ORM, developer dapat memodelkan tabel dalam basis data menggunakan kelas Python, yang memungkinkan interaksi data tanpa menulis query SQL secara langsung.
+
+ORM mempermudah pengelolaan data dengan mengubah instruksi Python menjadi query SQL yang sesuai. Hal tersebut dapat mengurangi kebutuhan untuk menulis kode SQL manual, meminimalkan risiko kesalahan, dan meningkatkan produktivitas pengembangan. 
