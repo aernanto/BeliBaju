@@ -11,7 +11,10 @@ E-Commerce: Clothing
 Nama e-commerce: BeliBaju
 
 
-# Langkah Pengerjaan
+# Tugas 2
+
+
+## Langkah Pengerjaan
 ----------------------------
 ### **Langkah Pertama**
 - Pertama-tama, saya telah membuat direktori baru di github dan direktori lokal.
@@ -26,7 +29,7 @@ echo "# Django\n*.log\n*.pot\n*.pyc\n__pycache__\ndb.sqlite3\nmedia\n\n# Backup 
 - Sebagai penutup langkah pertama, saya tak lupa untuk melakukan push, ```git push -u origin main```.
 
 
-## **Langkah Kedua**
+### **Langkah Kedua**
 - Tak lupa, saya menjalankan virtual environment dengan melakukan ```python -m venv env``` lalu mengaktivasinya dengan ```env\Scripts\activate``` pada command prompt.
 - Saya lalu membuat berkas requirements.txt yang berisikan:
 ```
@@ -149,7 +152,7 @@ urlpatterns = [
 ]
 ```
 
-**Langkah Ketiga**
+### **Langkah Ketiga**
 - Saya memodifikasi template main.html agar mengikuti struktur kode Django sebagai berikut:
 ```
 <h1>BeliBaju</h1>
@@ -225,7 +228,7 @@ git push -u origin main
 ```
 
 
-## **Langkah Ketiga**
+### **Langkah Ketiga**
 Deployment PWS saya lakukan akhir-akhir karena saya lupa.
 - Mengikuti langkah-langkah seperti Tutorial 0, saya login ke akun PWS saya.
 - Proyek baru saya dibuat dengan nama ecommercebelibaju.
@@ -243,26 +246,37 @@ git push pws main:master
 ```
 
 
-# Request Client
+## Request Client
 ![IMG_0633](https://github.com/user-attachments/assets/a2690d3f-67bf-4653-8663-2abbf0c2c7b5)
 Pertama-tama, sebelum diteruskan ke server Django, user atau client mengakses URL melalui browser. Django kemudian akan memeriksa urls.py untuk mencocokkan pola URL dengan permintaan tersebut. Jika cocok, permintaan diteruskan ke views.py yang mengandung logika bisnis dari sebuah app. Data dari database bisa diambil melalui model yang ada di models.py, yang mengelola dan mengambil data dari database, misalnya dalam hal BeliBaju, data produk diambil dari katalog.
 
 Setelah data diambil oleh views.py, Django akan menggunakan template HTML untuk me-render data agar bisa ditampilkan ke client. Hasil render tersebut dikirim sebagai respons HTTP ke browser pengguna, di mana halaman yang sudah diproses akan ditampilkan. 
 
 
-# Penggunaan Git
+## Penggunaan Git
 Git sendiri merupakan tool dalam Software Development untuk membantu tim bekerja sama secara efisien. Dalam Git, developer dapat menyimpan, mengatur, dan berbagi perubahan kode secara mudah karena memungkinkan developer untuk membuat branch sendiri dalam pengerjaan suatu fitur atau perbaikan, lalu menggabungkannya kembali ke proyek utama setelah selesai, tanpa mengganggu pekerjaan orang lain. 
 
 Tak hanya itu, Git dapat medukung kerja sama secara lebih seamless karena terdapat fitur seperti fork, clone, merge, dan pull request yang memudahkan kontribusi dan integrasi dari banyak orang. Selain itu, Git juga mendukung adanya rollback jika terjadi kesalahan, sehingga tim dapat dengan cepat memperbaiki masalah tanpa kehilangan data penting. 
 
 
-# Penggunaan Django
+## Penggunaan Django
 Django, seperti yang telah diketahui, mendukung pembuatan aplikasi web yang kuat dan efisien. Django memungkinkan pembuatan platform interaktif antara perusahaan dan user, seperti yang terlihat pada contoh situs e-commerce, blog pribadi, dan portal berita. Dengan Django, perusahaan dapat menjangkau audiens secara efektif melalui situs web yang user-friendly. 
 
 Selain itu, Django sangat cocok untuk pemula karena dokumentasinya yang lengkap dan terstruktur dengan baik, sehingga sangat memudahkan proses pembelajaran. Django juga berintegrasi secara erat dengan Python, bahasa pemrograman yang telah dipelajari pada mata kuliah DDP-1, sehingga saya sebagai pemula bisa me-review kembali konsep Python yang sudah "berdebu". Dengan banyaknya library dan fitur bawaan, seperti autentikasi pengguna dan manajemen database, Django memungkinkan developer untuk fokus pada logika aplikasi tanpa harus memikirkan hal-hal teknis yang rumit.
 
 
-# ORM pada Django
+## ORM pada Django
 Object-Relational Mapper (ORM) pada Django merupakan salah satu pilar utama Django yang menyediakan abstraksi untuk bekerja dengan basis data, dengan cara yang sebagian besar tidak bergantung pada jenis basis data tertentu. Dengan menggunakan ORM, developer dapat memodelkan tabel dalam basis data menggunakan kelas Python, yang memungkinkan interaksi data tanpa menulis query SQL secara langsung.
 
 ORM mempermudah pengelolaan data dengan mengubah instruksi Python menjadi query SQL yang sesuai. Hal tersebut dapat mengurangi kebutuhan untuk menulis kode SQL manual, meminimalkan risiko kesalahan, dan meningkatkan produktivitas pengembangan. 
+
+
+# Tugas 3
+
+
+Berikut ini merupakan Screenshot pengaksesan keempat URL dengan Postman:
+![Screenshot (1035)](https://github.com/user-attachments/assets/75841a93-c1bf-44f3-8da7-038c1adc51f1)
+![Screenshot (1034)](https://github.com/user-attachments/assets/f22fcfac-79d3-4dd9-8876-d2452e94f367)
+![Screenshot (1033)](https://github.com/user-attachments/assets/1c60e11a-7732-4464-bdf2-ffd0ad76bd81)
+![Screenshot (1032)](https://github.com/user-attachments/assets/936ee3e4-4bd9-47cd-8d38-329bf5ccd767)
+Dapat disimpulkan bahwa URL telah menghasilkan output yang diharapkan.
