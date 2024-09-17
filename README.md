@@ -274,7 +274,45 @@ ORM mempermudah pengelolaan data dengan mengubah instruksi Python menjadi query 
 # Tugas 3
 
 
-Berikut ini merupakan Screenshot pengaksesan keempat URL dengan Postman:
+## Data delivery dalam implementasi platform
+Data delivery merupakan bagian penting dalam implementasi platform data karena arsitekturnya yang mendukung berbagai aspek penting, seperti tujuan bisnis, sumber data, kualitas data, tata kelola data, dan keamanan data. Tetapi, dalam best practicenya, banyak organisasi dan perusahaan yang terjebak dalam pengembangan sistem data yang terisolasi. Misalnya, mereka memiliki data warehouse untuk reporting secara tradisional, data lake berbasis Hadoop untuk analisis mendalam, sistem transfer file lama, gateway API untuk aplikasi mobile, serta aplikasi streaming berbasis Kafka. Hal tersebut disebabkan oleh sistem-sistem yang sering kali tidak saling terintegrasi, tidak memiliki teknologi atau spesifikasi yang sama, dan dikelola oleh kelompok pengembang yang berbeda. Pendekatan terisolasi tersebut mengakibatkan berbagai masalah, seperti penurunan waktu yang dibutuhkan untuk menghasilkan laporan dan analisis, ketidak konsistenan laporan, duplikasi data, serta biaya pengembangan yang lebih tinggi. Maka dari itu, data delivery lebih unggul dalam menyatukan berbagai sistem menjadi lebih transparan dan efisien dalam data-based decision making.
+
+
+## Efektivitas XML dan JSON, serta keunggulan JSON
+JSON dan XML merupakan format data yang sering digunakan untuk pertukaran informasi antar sistem, namun JSON lebih populer dibandingkan XML karena beberapa alasan mendasar. JSON, subset dari JavaScript, memiliki struktur yang lebih sederhana dan langsung dibandingkan XML, sehingga JSON lebih mudah diproses dan digunakan langsung dalam JavaScript tanpa perlu melakukan parsing tambahan. JSON juga menghindari penggunaan tag yang panjang dan berlebihan seperti pada XML, sehingga ukuran data yang dikirimkan lebih kecil dan lebih efisien. Hal tersebut pun mengurangi overhead dalam transmisi data dan mempermudah pengelolaan memori dan CPU pada server.
+
+Di sisi lain, XML memiliki aturan yang lebih ketat mengenai struktur dan format, seperti kepekaan huruf besar-kecil dan larangan penggunaan spasi dalam tag, yang dapat membuat pengolahan dan validasi XML lebih rumit. Selain itu, XML sering kali menghasilkan ukuran file yang lebih besar karena tag-tag deskriptif yang banyak. Karena format JSON lebih ringkas, JSON lebih cepat dan efisien dalam hal pertukaran data.
+
+
+## Fungsi dari method `is_valid()` pada form Django
+Method `is_valid()` pada form Django berfungsi untuk memvalidasi data yang dikirimkan melalui form sebelum lanjut ke steps berikutnya, seperti menyimpan data ke database. Ketika method dipanggil, Django secara otomatis memeriksa apakah data yang dimasukkan memenuhi semua aturan validasi yang telah ditentukan dalam form, seperti jenis field atau format yang benar. Jika data valid, method akan mengembalikan `True`, menandakan bahwa data dapat diproses lebih lanjut tanpa kesalahan. Sebaliknya, jika ada kesalahan atau ketidakcocokan dalam data, `is_valid()` akan mengembalikan `False`, dan form akan menampilkan error handling message yang sesuai.
+
+Method `is_valid()` diperlukan untuk memastikan bahwa data yang diterima dari input benar-benar sesuai dengan kriteria yang diharapkan sebelum menyimpannya ke dalam sistem. 
+
+Contoh pada kode saya:
+```
+def tambah_produk(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)  # Handle data POST dan FILES untuk gambar
+        if form.is_valid():
+            form.save()  # Save data product baru ke database
+            return redirect('daftar_produk')  # Redirect ke page daftar produk 
+    else:
+        form = ProductForm()  # Buat form kosong kalau bukan POST
+
+    return render(request, 'tambah-produk.html', {'form': form})  # Render form di template
+```
+
+Dalam contoh kode saya di atas, jika form yang diterima dalam request POST valid, maka data produk baru akan disimpan ke database dan pengguna akan dialihkan ke halaman daftar produk. Jika form tidak valid, data tidak akan disimpan, dan form dengan error handling message akan ditampilkan kembali.
+
+
+## Penggunaan `csrf_token` pada form di Django
+`csrf_token` merupakan mekanisme keamanan dalam Django untuk melindungi aplikasi web dari serangan Cross-Site Request Forgery (CSRF), jenis cyberattack di mana situs web jahat dapat memaksa browser user untuk melakukan aksi yang tidak diinginkan di situs web yang tepercaya tanpa sepengetahuan user. Misalnya, jika user telah login ke situs web perbankan secara tidak sengaja mengunjungi situs web jahat, situs jahat tersebut bisa mengirimkan request untuk melakukan transfer dana tanpa izin. `csrf_token` mencegah hal tersebut terjadi dengan memastikan bahwa setiap request POST yang dikirim ke server termasuk token CSRF yang valid. Token ini hanya dapat diterbitkan oleh server dan hanya berlaku untuk sesi user tertentu, sehingga mencegah third-party yang tidak sah untuk memanipulasi request.
+
+Jika `csrf_token` tidak ditambahkan ke form di Django, aplikasi web akan rentan terhadap serangan CSRF. Penyerang dapat memanfaatkan kelemahan tersebut dengan membuat formulir yang tampaknya sah di situs mereka sendiri, yang saat dikirim dapat melakukan tindakan berbahaya di situs web target yang tidak dilindungi. Dengan mengaktifkan `csrf_token` dalam setiap form, Django memastikan bahwa hanya permintaan yang berasal dari sumber yang sah dan terpercaya yang dapat memodifikasi data atau melakukan aksi sensitif pada server.
+
+
+## Screenshot pengaksesan keempat URL dengan Postman:
 ![Screenshot (1035)](https://github.com/user-attachments/assets/75841a93-c1bf-44f3-8da7-038c1adc51f1)
 ![Screenshot (1034)](https://github.com/user-attachments/assets/f22fcfac-79d3-4dd9-8876-d2452e94f367)
 ![Screenshot (1033)](https://github.com/user-attachments/assets/1c60e11a-7732-4464-bdf2-ffd0ad76bd81)
