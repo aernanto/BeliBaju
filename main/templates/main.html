@@ -1,14 +1,55 @@
-<h1>BeliBaju</h1>
-
-
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ nama_ecommerce }}</h1>
 
 <h5>NPM: </h5>
 <p>{{ npm }}<p>
+
 <h5>Name: </h5>
 <p>{{ name }}<p>
+
 <h5>Class: </h5>
 <p>{{ class }}<p>
+
 <h5>E-Commerce: </h5>
-<p>{{ ecommerce }}</p> 
+<p>{{ ecommerce }}</p>
+
 <h5>Nama e-commerce: </h5>
-<p>{{ nama_ecommerce }}</p> 
+<p>{{ nama_ecommerce }}</p>
+
+<h2>Daftar Produk</h2>
+
+{% if not products %}
+<p>Belum ada produk yang tersedia di {{ nama_ecommerce }}.</p>
+{% else %}
+<table>
+  <tr>
+    <th>Nama Produk</th>
+    <th>Harga</th>
+    <th>Stok</th>
+    <th>Diskon</th>
+  </tr>
+
+  {% for product in products %}
+  <tr>
+    <td>{{ product.nama }}</td>
+    <td>{{ product.harga_formatted }}</td>
+    <td>{{ product.stok }}</td>
+    <td>
+      {% if product.ada_diskon %}
+        {{ product.diskon }}%
+      {% else %}
+        Tidak ada diskon
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<a href="{% url 'main:tambah_produk' %}">
+  <button>Tambah Produk Baru</button>
+</a>
+{% endblock content %}
