@@ -274,6 +274,396 @@ ORM mempermudah pengelolaan data dengan mengubah instruksi Python menjadi query 
 # Tugas 3
 
 
+## Langkah Pengerjaan
+----------------------------
+### **Langkah Pertama**
+- Pertama-tama, saya membuat file HTML baru bernama `base.html` pada direktori templates yang berisi:
+```
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block meta %} {% endblock meta %}
+  </head>
+
+  <body>
+    {% block content %} {% endblock content %}
+  </body>
+</html>
+```
+- Pada `settings.py` saya kemudian menambahkan hal di bawah ini pada variabel TEMPLATES:
+```
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'], # Tambahkan konten baris ini
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+```
+- Lalu di `main.html` pada subdirektori `templates`, saya menambahkan:
+```
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ nama_ecommerce }}</h1>
+
+<h5>NPM: </h5>
+<p>{{ npm }}<p>
+
+<h5>Name: </h5>
+<p>{{ name }}<p>
+
+<h5>Class: </h5>
+<p>{{ class }}<p>
+
+<h5>E-Commerce: </h5>
+<p>{{ ecommerce }}</p>
+
+<h5>Nama e-commerce: </h5>
+<p>{{ nama_ecommerce }}</p>
+
+{% endblock content %}
+```
+
+### **Langkah Kedua**
+- Pada file `models.py`, saya kemudian menambahkan `import uuid` sehingga menjadi seperti ini:
+```
+import uuid
+from django.db import models
+
+class Product(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nama = models.CharField(max_length=270, verbose_name="Nama Produk")
+    harga = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Harga")
+    deskripsi = models.TextField(verbose_name="Deskripsi")
+    stok = models.PositiveIntegerField(default=0, verbose_name="Stok")
+    kategori = models.CharField(max_length=100, blank=True, null=True, verbose_name="Kategori")
+    gambar = models.ImageField(upload_to='gambar_produk/', blank=True, null=True, verbose_name="Gambar")
+    ukuran = models.CharField(max_length=20, blank=True, null=True, verbose_name="Ukuran")  # Fitur tambahan untuk ukuran pakaian
+    warna = models.CharField(max_length=50, blank=True, null=True, verbose_name="Warna")  # Fitur tambahan untuk warna pakaian
+    diskon = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, verbose_name="Diskon")  # Diskon sederhana, persen
+    tanggal_dibuat = models.DateTimeField(auto_now_add=True, verbose_name="Tanggal Dibuat")
+    tanggal_diperbarui = models.DateTimeField(auto_now=True, verbose_name="Tanggal Diperbarui")
+
+    def __str__(self):
+        return self.nama
+
+    @property
+    def available(self):  # kalau stoknya masih ada
+        return self.stok > 0
+
+    @property
+    def harga_formatted(self):
+        return f"Rp{self.harga:,.2f}"
+
+    @property
+    def harga_setelah_diskon(self):
+        if self.diskon > 0:
+            harga_diskon = self.harga - (self.harga * self.diskon / 100)
+            return f"Rp{harga_diskon:,.2f}"
+        return self.harga_formatted
+
+    @property
+    def ada_diskon(self):
+        return self.diskon > 0
+
+    class Meta:
+        ordering = ['-tanggal_dibuat']
+        verbose_name_plural = 'Products'
+```
+- Menutup langkah kedua, saya kemudian melakukan `python manage.py makemigrations` dan `python manage.py migrate`
+
+### **Langkah Ketiga**
+- Setelah menambahkan `forms.py` pada direktori `main`, kode saya menjadi seperti:
+```
+from django.forms import ModelForm
+from main.models import Product
+
+class ProductForm(ModelForm):
+    class Meta:
+        model = Product
+        fields = ['nama', 'harga', 'deskripsi', 'stok', 'kategori', 'gambar', 'ukuran', 'warna', 'diskon']
+```
+Hal tersebut merujuk pada requirements yang saya inginkan untuk BeliBaju.
+- Pada file `views.py`, saya tak lupa make sure bahwa import akan menjadi seperti:
+```
+from django.shortcuts import render, redirect
+from main.forms import ProductForm
+from main.models import Product
+```
+- Pada file `views.py` juga, saya tak lupa untuk menambahkan function baru bernama `tambah_produk` yang nantinya menerima parameter `request` karena nantinya data akan secara otomatis ter-update jikalau ada submission. Dengan bantuan Chat GPT, saya menambahan kode:
+```
+def tambah_produk(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)  # Handle data POST dan FILES untuk gambar
+        if form.is_valid():
+            form.save()  # Save data product baru ke database
+            return redirect('daftar_produk')  # Redirect ke page daftar produk 
+    else:
+        form = ProductForm()  # Buat form kosong kalau bukan POST
+
+    return render(request, 'tambah-produk.html', {'form': form})  # Render form di template
+```
+- Lalu saya akan mengubah function `show_main` menjadi seperti:
+```
+def show_main(request):
+    products = Product.objects.all()  # Akses semua product dari database
+
+    context = {
+        'name': 'Aimee Ernanto',  
+        'class': 'PBP C',
+        'npm': '2306165963',
+        'ecommerce': 'Clothing',  
+        'nama_ecommerce': 'BeliBaju',  
+        'products': products  
+    }
+
+    return render(request, "main.html", context)  # Render main page dengan context
+```
+- Pada `urls.py`, saya kemudian melakukan dua hal:
+1) Import function yang telah saya buat sebelumnya,
+```
+from django.urls import path
+from . import views
+from main.views import tambah_produk, show_main
+```
+2) Menambahkan path pada variabel `urlpatterns` pada `urls.py`,
+```
+urlpatterns = [
+    path('', views.show_main, name='show_main'), 
+    path('tambah-produk/', views.tambah_produk, name='tambah_produk'),
+]
+```
+- Lalu saya buat file html baru bernama `tambah-produk.html` yang berisi:
+```
+{% extends 'base.html' %} 
+{% block content %}
+<h1>Tambah Produk Baru</h1>
+
+<form method="POST" enctype="multipart/form-data"> 
+  {% csrf_token %}
+  <table>
+    {{ form.as_table }}  
+    <tr>
+      <td></td>
+      <td>
+        <input type="submit" value="Tambah Produk" />  
+      </td>
+    </tr>
+  </table>
+</form>
+
+{% endblock %}
+```
+- Benchmarking dari Tutorial 2, saya kemudian melengkapi file `main.html` saya, sehingga menjadi:
+```
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ nama_ecommerce }}</h1>
+
+<h5>NPM: </h5>
+<p>{{ npm }}<p>
+
+<h5>Name: </h5>
+<p>{{ name }}<p>
+
+<h5>Class: </h5>
+<p>{{ class }}<p>
+
+<h5>E-Commerce: </h5>
+<p>{{ ecommerce }}</p>
+
+<h5>Nama e-commerce: </h5>
+<p>{{ nama_ecommerce }}</p>
+
+<h2>Daftar Produk</h2>
+
+{% if not products %}
+<p>Belum ada produk yang tersedia di {{ nama_ecommerce }}.</p>
+{% else %}
+<table>
+  <tr>
+    <th>Nama Produk</th>
+    <th>Harga</th>
+    <th>Stok</th>
+    <th>Diskon</th>
+  </tr>
+
+  {% for product in products %}
+  <tr>
+    <td>{{ product.nama }}</td>
+    <td>{{ product.harga_formatted }}</td>
+    <td>{{ product.stok }}</td>
+    <td>
+      {% if product.ada_diskon %}
+        {{ product.diskon }}%
+      {% else %}
+        Tidak ada diskon
+      {% endif %}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endif %}
+
+<br />
+
+<a href="{% url 'main:tambah_produk' %}">
+  <button>Tambah Produk Baru</button>
+</a>
+{% endblock content %}
+```
+- Tak lupa saya menjalankan `python manage.py runserver` dan membuka http://localhost:8000/ untuk melihat hasil sementara.
+
+### **Langkah Keempat**
+- Saya menambahkan beberapa import pada `views.py` agar menjadi:
+```
+from django.http import HttpResponse, JsonResponse
+from django.core import serializers
+```
+- Dengan bantuan Chat GPT, saya menambahkan beberapa function baru, yaitu `show_xml` dan `show_json` yang menerima parameter request sehingga kode akan menjadi seperti:
+```
+def show_xml(request):
+    data = Product.objects.all()  # Mengambil semua data dari model Product
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")  
+
+def show_json(request):
+    products = Product.objects.all()
+    data = list(products.values('id', 'nama', 'harga', 'deskripsi', 'stok', 'kategori', 'ukuran', 'warna', 'diskon', 'tanggal_dibuat', 'tanggal_diperbarui'))
+    return JsonResponse(data, safe=False, json_dumps_params={'indent': 2})  
+```
+- Lalu, tak lupa saya meng-import function yang telah saya buat sebelumnya pada `urls.py`:
+```
+from main.views import tambah_produk, show_main, show_xml, show_json
+```
+- Terakhir, saya akan menambahkan beberapa path url dalam variabel `urlpatterns` yang akan menjadi seperti ini:
+```
+urlpatterns = [
+    path('', views.show_main, name='show_main'), 
+    path('tambah-produk/', views.tambah_produk, name='tambah_produk'),  
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+]
+```
+- Tak lupa saya menjalankan `python manage.py runserver` dan membuka http://localhost:8000/xml/ dan http://localhost:8000/json/ untuk melihat hasil sementara. Saya tak lupa mencatat ID yang muncul.
+
+### **Langkah Keempat**
+- Dengan bantuan Chat GPT, pada `views.py`, saya membuat function-function baru yang lagi-lagi menerima request dan ID dengan nama `show_xml_by_id` dan `show_json_by_id` seperti di bawah ini:
+1) `show_xml_by_id`
+```
+def show_xml_by_id(request, id):
+    data = Product.objects.filter(pk=id)  # Mengambil data Product berdasarkan id
+    return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
+```
+2) `show_json_by_id`
+```
+def show_json_by_id(request, id):
+    product = Product.objects.filter(pk=id).first()  # Mengambil data Product berdasarkan id
+    if product:
+        data = {
+            'id': str(product.id),
+            'nama': product.nama,
+            'harga': str(product.harga),
+            'deskripsi': product.deskripsi,
+            'stok': product.stok,
+            'kategori': product.kategori,
+            'ukuran': product.ukuran,
+            'warna': product.warna,
+            'diskon': str(product.diskon),
+            'tanggal_dibuat': product.tanggal_dibuat.isoformat(),
+            'tanggal_diperbarui': product.tanggal_diperbarui.isoformat()
+        }
+        return JsonResponse(data, json_dumps_params={'indent': 2})  # Added indent for readability
+    else:
+        return JsonResponse({'error': 'Product not found'}, status=404)
+```
+- Pada `urls.py`, saya akan melengkapi import sehingga menjadi seperti:
+```
+from main.views import tambah_produk, show_main, show_xml, show_json, show_xml_by_id, show_json_by_id
+```
+- Tak lupa juga, saya menambahkan path URL ke dalam variabel `urlpatterns` sehingga lengkapnya akan menjadi seperti:
+```
+urlpatterns = [
+    path('', views.show_main, name='show_main'), 
+    path('tambah-produk/', views.tambah_produk, name='tambah_produk'),  
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+    path('xml/<uuid:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<uuid:id>/', show_json_by_id, name='show_json_by_id'),
+]
+```
+- Tak lupa saya menjalankan `python manage.py runserver` dan membuka `http://localhost:8000/xml/[id]/` atau `http://localhost:8000/json/[id]/` untuk melihat hasil sementara dengan ID yang telah disimpan.
+
+### **Langkah Kelima**
+- Setelah men-screenshot hasil yang muncul pada Postman, saya melakukan push ke PWS dengan membuat subdirektori `.github` yang memiliki subdirektori lagi bernama `workflows`. Lalu saya membuat file `deploy.yml` yang berisi:
+```
+name: Push to PWS
+
+on:
+  push:
+    branches: [ main ]
+    paths-ignore:
+        - '**.md'
+  pull_request:
+    branches: [ main ]
+    paths-ignore:
+        - '**.md'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Set up Git
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+    - name: Check PWS remote, pull, merge, and push
+      env:
+        PWS_URL: ${{ secrets.PWS_URL }}
+      run: |
+          # Check if master branch exists locally
+          if ! git show-ref --verify --quiet refs/heads/master; then
+            echo "Creating master branch"
+            git branch master
+          fi
+          
+          # Switch to master branch
+          git checkout master
+
+          # Push to master branch and capture the output
+          push_output=$(git push $PWS_URL main:master 2>&1)
+          if [[ $? -ne 0 ]]; then
+            echo "Push failed with output: $push_output"
+            echo "Error: Unable to push changes. Please check the error message above and resolve any conflicts manually."
+            exit 1
+          fi
+          echo "Push successful with output: $push_output"
+```
+- Saya kemudian mengisi New repository secret, merujuk pada Tutorial 2.
+- Pada `settings.py`, saya kemudian menambahkan:
+```
+CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://aimee-callista-ecommercebelibaju.pbp.cs.ui.ac.id/", "http://aimee-callista-ecommercebelibaju.pbp.cs.ui.ac.id/"]
+```
+- Setelah melakukan git add, commit, push, proyek pada PWS saya telah successfully built.
+
+
 ## Data delivery dalam implementasi platform
 Data delivery merupakan bagian penting dalam implementasi platform data karena arsitekturnya yang mendukung berbagai aspek penting, seperti tujuan bisnis, sumber data, kualitas data, tata kelola data, dan keamanan data. Tetapi, dalam best practicenya, banyak organisasi dan perusahaan yang terjebak dalam pengembangan sistem data yang terisolasi. Misalnya, mereka memiliki data warehouse untuk reporting secara tradisional, data lake berbasis Hadoop untuk analisis mendalam, sistem transfer file lama, gateway API untuk aplikasi mobile, serta aplikasi streaming berbasis Kafka. Hal tersebut disebabkan oleh sistem-sistem yang sering kali tidak saling terintegrasi, tidak memiliki teknologi atau spesifikasi yang sama, dan dikelola oleh kelompok pengembang yang berbeda. Pendekatan terisolasi tersebut mengakibatkan berbagai masalah, seperti penurunan waktu yang dibutuhkan untuk menghasilkan laporan dan analisis, ketidak konsistenan laporan, duplikasi data, serta biaya pengembangan yang lebih tinggi. Maka dari itu, data delivery lebih unggul dalam menyatukan berbagai sistem menjadi lebih transparan dan efisien dalam data-based decision making.
 
