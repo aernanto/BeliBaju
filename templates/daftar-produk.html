@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Daftar Produk</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Deskripsi</th>
+            <th>Stok</th>
+            <th>Kategori</th>
+            <th>Ukuran</th>
+            <th>Warna</th>
+            <th>Diskon</th>
+            <th>Tanggal Dibuat</th>
+            <th>Tanggal Diperbarui</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.id }}</td>
+            <td>{{ product.nama }}</td>
+            <td>{{ product.harga }}</td>
+            <td>{{ product.deskripsi }}</td>
+            <td>{{ product.stok }}</td>
+            <td>{{ product.kategori }}</td>
+            <td>{{ product.ukuran }}</td>
+            <td>{{ product.warna }}</td>
+            <td>{{ product.diskon }}</td>
+            <td>{{ product.tanggal_dibuat }}</td>
+            <td>{{ product.tanggal_diperbarui }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="11">Tidak ada produk ditemukan.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{% url 'main:tambah_produk' %}">Tambah Produk</a>
+{% endblock %}

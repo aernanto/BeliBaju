@@ -1,5 +1,6 @@
 import uuid
 from django.db import models
+from django.contrib.auth.models import User
 
 class Product(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -14,12 +15,13 @@ class Product(models.Model):
     diskon = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, verbose_name="Diskon")  # Diskon sederhana, persen
     tanggal_dibuat = models.DateTimeField(auto_now_add=True, verbose_name="Tanggal Dibuat")
     tanggal_diperbarui = models.DateTimeField(auto_now=True, verbose_name="Tanggal Diperbarui")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products', verbose_name="Pengguna") 
 
     def __str__(self):
         return self.nama
 
     @property
-    def available(self):  # kalau stoknya masih ada
+    def available(self):  # Kalau stoknya masih ada
         return self.stok > 0
 
     @property

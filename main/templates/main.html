@@ -3,19 +3,27 @@
 <h1>{{ nama_ecommerce }}</h1>
 
 <h5>NPM: </h5>
-<p>{{ npm }}<p>
+<p>{{ npm }}</p>
 
 <h5>Name: </h5>
-<p>{{ name }}<p>
+<p>{{ name }}</p>
 
 <h5>Class: </h5>
-<p>{{ class }}<p>
+<p>{{ class }}</p>
 
 <h5>E-Commerce: </h5>
 <p>{{ ecommerce }}</p>
 
 <h5>Nama e-commerce: </h5>
 <p>{{ nama_ecommerce }}</p>
+
+<!-- Kapan terakhir login -->
+{% if request.COOKIES.last_login %}
+<h5>Last Login: </h5>
+<p>{{ request.COOKIES.last_login }}</p>
+{% else %}
+<p>You have not logged in yet or your login session has expired.</p>
+{% endif %}
 
 <h2>Daftar Produk</h2>
 
@@ -51,5 +59,10 @@
 
 <a href="{% url 'main:tambah_produk' %}">
   <button>Tambah Produk Baru</button>
+</a>
+
+<!-- Logout -->
+<a href="{% url 'main:logout' %}">
+  <button>Logout</button>
 </a>
 {% endblock content %}
