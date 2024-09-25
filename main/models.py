@@ -21,7 +21,7 @@ class Product(models.Model):
         return self.nama
 
     @property
-    def available(self):  # Kalau stoknya masih ada
+    def available(self):  # kalau stoknya masih ada
         return self.stok > 0
 
     @property

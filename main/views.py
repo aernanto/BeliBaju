@@ -1,6 +1,3 @@
-import datetime
-from django.http import HttpResponseRedirect
-from django.urls import reverse
 from django.shortcuts import render, redirect
 from main.forms import ProductForm
 from main.models import Product
@@ -12,6 +9,17 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+
+def tambah_produk(request):
+    if request.method == 'POST':
+        form = ProductForm(request.POST, request.FILES)  # Handle data POST dan FILES untuk gambar
+        if form.is_valid():
+            form.save()  # Save data product baru ke database
+            return redirect('daftar_produk')  # Redirect ke page daftar produk 
+    else:
+        form = ProductForm()  # Buat form kosong kalau bukan POST
+
+    return render(request, 'tambah-produk.html', {'form': form})  # Render form di template
 
 def tambah_produk(request):
     form = ProductForm(request.POST or None, request.FILES)  # Handle data POST dan FILES untuk gambar
@@ -65,22 +73,21 @@ def logout_user(request):
 
 @login_required(login_url='/login')
 def show_main(request):
-    products = Product.objects.filter(user=request.user)  
+    products = Product.objects.all()  # Akses semua product dari database
 
     context = {
-        'name': request.user.username,  
+        'name': 'Aimee Ernanto',  
         'class': 'PBP C',
         'npm': '2306165963',
         'ecommerce': 'Clothing',  
         'nama_ecommerce': 'BeliBaju',  
-        'products': products,
-        'last_login': request.COOKIES.get('last_login'),  
+        'products': products  
     }
 
-    return render(request, "main.html", context)  
+    return render(request, "main.html", context)  # Render main page dengan context
 
 def show_xml(request):
-    data = Product.objects.all() 
+    data = Product.objects.all()  # Mengambil semua data dari model Product
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")  
 
 def show_json(request):
@@ -89,11 +96,11 @@ def show_json(request):
     return JsonResponse(data, safe=False, json_dumps_params={'indent': 2})  # Added indent for readability
 
 def show_xml_by_id(request, id):
-    data = Product.objects.filter(pk=id)  
+    data = Product.objects.filter(pk=id)  # Mengambil data Product berdasarkan id
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
 def show_json_by_id(request, id):
-    product = Product.objects.filter(pk=id).first()  
+    product = Product.objects.filter(pk=id).first()  # Mengambil data Product berdasarkan id
     if product:
         data = {
             'id': str(product.id),

@@ -4,7 +4,6 @@ from main.views import tambah_produk, show_main, show_xml, show_json, show_xml_b
 from main.views import register
 from main.views import login_user
 from main.views import logout_user
-
 app_name = 'main'
 
 urlpatterns = [
