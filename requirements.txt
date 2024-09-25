@@ -1,4 +1,9 @@
 django
-pillow
+gunicorn
+whitenoise
+psycopg2-binary
+requests
+urllib3
 django-crispy-forms
 django-allauth
+pillow
