@@ -250,19 +250,19 @@ git push pws main:master
 ![IMG_0633](https://github.com/user-attachments/assets/a2690d3f-67bf-4653-8663-2abbf0c2c7b5)
 Pertama-tama, sebelum diteruskan ke server Django, user atau client mengakses URL melalui browser. Django kemudian akan memeriksa urls.py untuk mencocokkan pola URL dengan permintaan tersebut. Jika cocok, permintaan diteruskan ke views.py yang mengandung logika bisnis dari sebuah app. Data dari database bisa diambil melalui model yang ada di models.py, yang mengelola dan mengambil data dari database, misalnya dalam hal BeliBaju, data produk diambil dari katalog.
 
-Setelah data diambil oleh views.py, Django akan menggunakan template HTML untuk me-render data agar bisa ditampilkan ke client. Hasil render tersebut dikirim sebagai respons HTTP ke browser pengguna, di mana halaman yang sudah diproses akan ditampilkan. 
+Setelah data diambil oleh views.py, Django akan menggunakan template HTML untuk me-render data agar bisa ditampilkan ke client. Hasil render tersebut dikirim sebagai respons HTTP ke browser user, di mana halaman yang sudah diproses akan ditampilkan. 
 
 
-## Penggunaan Git
+## useran Git
 Git sendiri merupakan tool dalam Software Development untuk membantu tim bekerja sama secara efisien. Dalam Git, developer dapat menyimpan, mengatur, dan berbagi perubahan kode secara mudah karena memungkinkan developer untuk membuat branch sendiri dalam pengerjaan suatu fitur atau perbaikan, lalu menggabungkannya kembali ke proyek utama setelah selesai, tanpa mengganggu pekerjaan orang lain. 
 
 Tak hanya itu, Git dapat medukung kerja sama secara lebih seamless karena terdapat fitur seperti fork, clone, merge, dan pull request yang memudahkan kontribusi dan integrasi dari banyak orang. Selain itu, Git juga mendukung adanya rollback jika terjadi kesalahan, sehingga tim dapat dengan cepat memperbaiki masalah tanpa kehilangan data penting. 
 
 
-## Penggunaan Django
+## useran Django
 Django, seperti yang telah diketahui, mendukung pembuatan aplikasi web yang kuat dan efisien. Django memungkinkan pembuatan platform interaktif antara perusahaan dan user, seperti yang terlihat pada contoh situs e-commerce, blog pribadi, dan portal berita. Dengan Django, perusahaan dapat menjangkau audiens secara efektif melalui situs web yang user-friendly. 
 
-Selain itu, Django sangat cocok untuk pemula karena dokumentasinya yang lengkap dan terstruktur dengan baik, sehingga sangat memudahkan proses pembelajaran. Django juga berintegrasi secara erat dengan Python, bahasa pemrograman yang telah dipelajari pada mata kuliah DDP-1, sehingga saya sebagai pemula bisa me-review kembali konsep Python yang sudah "berdebu". Dengan banyaknya library dan fitur bawaan, seperti autentikasi pengguna dan manajemen database, Django memungkinkan developer untuk fokus pada logika aplikasi tanpa harus memikirkan hal-hal teknis yang rumit.
+Selain itu, Django sangat cocok untuk pemula karena dokumentasinya yang lengkap dan terstruktur dengan baik, sehingga sangat memudahkan proses pembelajaran. Django juga berintegrasi secara erat dengan Python, bahasa pemrograman yang telah dipelajari pada mata kuliah DDP-1, sehingga saya sebagai pemula bisa me-review kembali konsep Python yang sudah "berdebu". Dengan banyaknya library dan fitur bawaan, seperti autentikasi user dan manajemen database, Django memungkinkan developer untuk fokus pada logika aplikasi tanpa harus memikirkan hal-hal teknis yang rumit.
 
 
 ## ORM pada Django
@@ -669,9 +669,9 @@ Data delivery merupakan bagian penting dalam implementasi platform data karena a
 
 
 ## Efektivitas XML dan JSON, serta keunggulan JSON
-JSON dan XML merupakan format data yang sering digunakan untuk pertukaran informasi antar sistem, namun JSON lebih populer dibandingkan XML karena beberapa alasan mendasar. JSON, subset dari JavaScript, memiliki struktur yang lebih sederhana dan langsung dibandingkan XML, sehingga JSON lebih mudah diproses dan digunakan langsung dalam JavaScript tanpa perlu melakukan parsing tambahan. JSON juga menghindari penggunaan tag yang panjang dan berlebihan seperti pada XML, sehingga ukuran data yang dikirimkan lebih kecil dan lebih efisien. Hal tersebut pun mengurangi overhead dalam transmisi data dan mempermudah pengelolaan memori dan CPU pada server.
+JSON dan XML merupakan format data yang sering digunakan untuk pertukaran informasi antar sistem, namun JSON lebih populer dibandingkan XML karena beberapa alasan mendasar. JSON, subset dari JavaScript, memiliki struktur yang lebih sederhana dan langsung dibandingkan XML, sehingga JSON lebih mudah diproses dan digunakan langsung dalam JavaScript tanpa perlu melakukan parsing tambahan. JSON juga menghindari useran tag yang panjang dan berlebihan seperti pada XML, sehingga ukuran data yang dikirimkan lebih kecil dan lebih efisien. Hal tersebut pun mengurangi overhead dalam transmisi data dan mempermudah pengelolaan memori dan CPU pada server.
 
-Di sisi lain, XML memiliki aturan yang lebih ketat mengenai struktur dan format, seperti kepekaan huruf besar-kecil dan larangan penggunaan spasi dalam tag, yang dapat membuat pengolahan dan validasi XML lebih rumit. Selain itu, XML sering kali menghasilkan ukuran file yang lebih besar karena tag-tag deskriptif yang banyak. Karena format JSON lebih ringkas, JSON lebih cepat dan efisien dalam hal pertukaran data.
+Di sisi lain, XML memiliki aturan yang lebih ketat mengenai struktur dan format, seperti kepekaan huruf besar-kecil dan larangan useran spasi dalam tag, yang dapat membuat pengolahan dan validasi XML lebih rumit. Selain itu, XML sering kali menghasilkan ukuran file yang lebih besar karena tag-tag deskriptif yang banyak. Karena format JSON lebih ringkas, JSON lebih cepat dan efisien dalam hal pertukaran data.
 
 
 ## Fungsi dari method `is_valid()` pada form Django
@@ -693,10 +693,10 @@ def tambah_produk(request):
     return render(request, 'tambah-produk.html', {'form': form})  # Render form di template
 ```
 
-Dalam contoh kode saya di atas, jika form yang diterima dalam request POST valid, maka data produk baru akan disimpan ke database dan pengguna akan dialihkan ke halaman daftar produk. Jika form tidak valid, data tidak akan disimpan, dan form dengan error handling message akan ditampilkan kembali.
+Dalam contoh kode saya di atas, jika form yang diterima dalam request POST valid, maka data produk baru akan disimpan ke database dan user akan dialihkan ke halaman daftar produk. Jika form tidak valid, data tidak akan disimpan, dan form dengan error handling message akan ditampilkan kembali.
 
 
-## Penggunaan `csrf_token` pada form di Django
+## useran `csrf_token` pada form di Django
 `csrf_token` merupakan mekanisme keamanan dalam Django untuk melindungi aplikasi web dari serangan Cross-Site Request Forgery (CSRF), jenis cyberattack di mana situs web jahat dapat memaksa browser user untuk melakukan aksi yang tidak diinginkan di situs web yang tepercaya tanpa sepengetahuan user. Misalnya, jika user telah login ke situs web perbankan secara tidak sengaja mengunjungi situs web jahat, situs jahat tersebut bisa mengirimkan request untuk melakukan transfer dana tanpa izin. `csrf_token` mencegah hal tersebut terjadi dengan memastikan bahwa setiap request POST yang dikirim ke server termasuk token CSRF yang valid. Token ini hanya dapat diterbitkan oleh server dan hanya berlaku untuk sesi user tertentu, sehingga mencegah third-party yang tidak sah untuk memanipulasi request.
 
 Jika `csrf_token` tidak ditambahkan ke form di Django, aplikasi web akan rentan terhadap serangan CSRF. Penyerang dapat memanfaatkan kelemahan tersebut dengan membuat formulir yang tampaknya sah di situs mereka sendiri, yang saat dikirim dapat melakukan tindakan berbahaya di situs web target yang tidak dilindungi. Dengan mengaktifkan `csrf_token` dalam setiap form, Django memastikan bahwa hanya permintaan yang berasal dari sumber yang sah dan terpercaya yang dapat memodifikasi data atau melakukan aksi sensitif pada server.
@@ -708,3 +708,241 @@ Jika `csrf_token` tidak ditambahkan ke form di Django, aplikasi web akan rentan 
 ![Screenshot (1033)](https://github.com/user-attachments/assets/1c60e11a-7732-4464-bdf2-ffd0ad76bd81)
 ![Screenshot (1032)](https://github.com/user-attachments/assets/936ee3e4-4bd9-47cd-8d38-329bf5ccd767)
 Dapat disimpulkan bahwa URL telah menghasilkan output yang diharapkan.
+
+
+# Tugas 3
+
+
+## Langkah Pengerjaan
+----------------------------
+### **Langkah Pertama**
+- Saya menambahkan `UserCreationForm` dan `messages` pada views.py:
+```
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+```
+- Pada views.py, saya menambahkan function register:
+```
+def register(request):
+    form = UserCreationForm()
+
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Akun Anda telah berhasil dibuat!')
+            return redirect('main:login')
+    context = {'form': form}
+    return render(request, 'register.html', context)
+```
+- Lalu, saya membuat register.html yang berisi:
+```
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Register</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="login">
+  <h1>Register</h1>
+  <form method="POST">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+      <tr>
+        <td></td>
+        <td><input type="submit" name="submit" value="Daftar" /></td>
+      </tr>
+    </table>
+  </form>
+
+  {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %}
+</div>
+{% endblock content %}
+```
+- Pada views.py, saya menambahkan:
+```
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import authenticate, login
+```
+dan juga fungsi login_user:
+```
+def login_user(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            return redirect('main:show_main')
+    else:
+        form = AuthenticationForm(request)
+    context = {'form': form}
+    return render(request, 'login.html', context)
+```
+- Kemudian saya membuat login.html yang berisi:
+```
+{% extends 'base.html' %}
+
+{% block meta %}
+<title>Login</title>
+{% endblock meta %}
+
+{% block content %}
+<div class="login">
+  <h1>Login</h1>
+  <form method="POST" action="">
+    {% csrf_token %}
+    <table>
+      {{ form.as_table }}
+      <tr>
+        <td></td>
+        <td><input class="btn login_btn" type="submit" value="Login" /></td>
+      </tr>
+    </table>
+  </form>
+
+  {% if messages %}
+  <ul>
+    {% for message in messages %}
+    <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+  {% endif %} 
+  Belum punya akun?
+  <a href="{% url 'main:register' %}">Daftar Sekarang</a>
+</div>
+{% endblock content %}
+```
+- Untuk fungsi logout, saya menambahkan:
+`from django.contrib.auth import logout`
+dan menambahkan fungsi:
+```
+def logout_user(request):
+    logout(request)
+    return redirect('main:login')
+```
+- Pada main.html, saya menambahkan button logout:
+```
+<a href="{% url 'main:logout' %}">
+  <button>Logout</button>
+</a>
+```
+- Pada urls.py, saya meng-update seluruh informasi yang diperlukan agar menjadi:
+```
+from django.urls import path
+from . import views
+from main.views import tambah_produk, show_main, show_xml, show_json, show_xml_by_id, show_json_by_id
+from main.views import register
+from main.views import login_user
+from main.views import logout_user
+app_name = 'main'
+
+urlpatterns = [
+    path('', views.show_main, name='show_main'), 
+    path('tambah-produk/', views.tambah_produk, name='tambah_produk'),  
+    path('daftar-produk/', views.daftar_produk, name='daftar_produk'),
+    path('xml/', show_xml, name='show_xml'),
+    path('json/', show_json, name='show_json'),
+    path('xml/<uuid:id>/', show_xml_by_id, name='show_xml_by_id'),
+    path('json/<uuid:id>/', show_json_by_id, name='show_json_by_id'),
+    path('register/', register, name='register'),
+    path('login/', login_user, name='login'),
+    path('logout/', logout_user, name='logout'),
+]
+```
+- Saya lalu menambahkan login_required pada views.py:
+```
+from django.contrib.auth.decorators import login_required
+```
+dan decorator
+```
+@login_required(login_url='/login')
+def show_main(request):
+```
+- Setelah melakukan `python manage.py runserver`, saya kemudian menambahkan import data dari cookies:
+```
+import datetime
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+```
+- Saya menambahkan cookie last_login pada login_user:
+```
+if form.is_valid():
+    user = form.get_user()
+    login(request, user)
+    response = HttpResponseRedirect(reverse("main:show_main"))
+    response.set_cookie('last_login', str(datetime.datetime.now()))
+    return response
+```
+- Saya kemudian mengubah fungsi show_main untuk menambahkan last_login untuk menampilkan data last login
+- untuk menghubungkan model dengan user, saya menambahkan field sehingga menjadi:
+```
+import uuid
+from django.db import models
+from django.contrib.auth.models import User
+
+class Product(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    nama = models.CharField(max_length=270, verbose_name="Nama Produk")
+    harga = models.DecimalField(max_digits=10, decimal_places=2, verbose_name="Harga")
+    deskripsi = models.TextField(verbose_name="Deskripsi")
+    stok = models.PositiveIntegerField(default=0, verbose_name="Stok")
+    kategori = models.CharField(max_length=100, blank=True, null=True, verbose_name="Kategori")
+    gambar = models.ImageField(upload_to='gambar_produk/', blank=True, null=True, verbose_name="Gambar")
+    ukuran = models.CharField(max_length=20, blank=True, null=True, verbose_name="Ukuran")  # Fitur tambahan untuk ukuran pakaian
+    warna = models.CharField(max_length=50, blank=True, null=True, verbose_name="Warna")  # Fitur tambahan untuk warna pakaian
+    diskon = models.DecimalField(max_digits=4, decimal_places=2, default=0.00, verbose_name="Diskon")  # Diskon sederhana, persen
+    tanggal_dibuat = models.DateTimeField(auto_now_add=True, verbose_name="Tanggal Dibuat")
+    tanggal_diperbarui = models.DateTimeField(auto_now=True, verbose_name="Tanggal Diperbarui")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products', verbose_name="user") 
+
+    def __str__(self):
+        return self.nama
+
+    @property
+    def available(self):  # kalau stoknya masih ada
+        return self.stok > 0
+
+    @property
+    def harga_formatted(self):
+        return f"Rp{self.harga:,.2f}"
+
+    @property
+    def harga_setelah_diskon(self):
+        if self.diskon > 0:
+            harga_diskon = self.harga - (self.harga * self.diskon / 100)
+            return f"Rp{harga_diskon:,.2f}"
+        return self.harga_formatted
+
+    @property
+    def ada_diskon(self):
+        return self.diskon > 0
+
+    class Meta:
+        ordering = ['-tanggal_dibuat']
+        verbose_name_plural = 'Products'
+```
+- Terakhir, saya melakukan `python manage.py makemigrations` dan `python manage.py migrate`
+
+## Perbedaan antara HttpResponseRedirect() dan redirect()
+- HttpResponseRedirect() secara eksplisit me-return kode status HTTP 302 untuk mengarahkan user ke URL yang baru.
+- Sedangkan redirect() lebih ringkas dan me-return objek respons pengalihan, serta dapat menerima berbagai jenis argumen, seperti URL, nama view, bahkan objek model.
+
+## Penghubungan model Product dengan User
+Penghubungan antara model `Product` dan `User` dalam aplikasi Django dilakukan melalui useran field `ForeignKey`. Pada model `Product`, terdapat atribut `user` yang bertindak sebagai penghubung dengan model `User`, yang berarti setiap produk yang dibuat akan terkait langsung dengan user tertentu, yang diidentifikasi oleh ID user. Saat user membuat produk baru, mereka secara otomatis ditetapkan sebagai pemilik produk tersebut melalui relasi ini. Relasi ini memungkinkan aplikasi untuk dengan mudah melacak siapa yang membuat atau memiliki produk tertentu, serta memudahkan dalam mengelola data user dan produk dalam konteks yang lebih luas. 
+Pada kode saya, hubungan antara model Product dan model User diimplementasikan melalui useran ForeignKey pada atribut user. Pada model Product, field user merujuk pada model User yang ada di Django, sehingga setiap produk dapat terhubung dengan user tertentu yang membuatnya. useran `related_name='products'` pada field `ForeignKey` juga memungkinkan untuk mengakses semua produk yang dimiliki oleh user dengan lebih sederhana.
+
+## Perbedaan antara Authentication dan Authorization
+Authentication adalah proses verifikasi identitas user, memastikan bahwa user tersebut adalah siapa yang mereka klaim. Saat user login, mereka memasukkan kredensial (username dan password) yang kemudian diverifikasi oleh sistem.
+Sedangkan Authorization adalah proses untuk menentukan hak akses user setelah mereka terautentikasi, memutuskan apakah user memiliki izin untuk melakukan tindakan atau mengakses resource tertentu.
+
+### Cara Django mengingat user yang telah login
+Django mengelola sesi user menggunakan cookies untuk menyimpan informasi sesi. Saat user berhasil login, Django membuat sesi baru dan menyimpannya di server. Di sisi klien, Django mengirimkan cookie yang berisi ID sesi. Cookie tersebut digunakan untuk melacak status login user di seluruh aplikasi. Lalu, cookies juga menyimpan preferensi user, riwayat pencarian, dan item keranjang belanja. 
