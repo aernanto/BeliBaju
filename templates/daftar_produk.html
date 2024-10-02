@@ -1,48 +1,55 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Daftar Produk</h1>
+<div class="flex flex-col min-h-screen bg-gray-100">
+    <div class="container mx-auto px-4 py-8 mt-16 max-w-5xl">
+        <h1 class="text-4xl font-bold text-center text-yellow-600 mb-8">Daftar Produk</h1>
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nama</th>
-            <th>Harga</th>
-            <th>Deskripsi</th>
-            <th>Stok</th>
-            <th>Kategori</th>
-            <th>Ukuran</th>
-            <th>Warna</th>
-            <th>Diskon</th>
-            <th>Tanggal Dibuat</th>
-            <th>Tanggal Diperbarui</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for product in products %}
-        <tr>
-            <td>{{ product.id }}</td>
-            <td>{{ product.nama }}</td>
-            <td>{{ product.harga }}</td>
-            <td>{{ product.deskripsi }}</td>
-            <td>{{ product.stok }}</td>
-            <td>{{ product.kategori }}</td>
-            <td>{{ product.ukuran }}</td>
-            <td>{{ product.warna }}</td>
-            <td>{{ product.diskon }}</td>
-            <td>{{ product.tanggal_dibuat }}</td>
-            <td>{{ product.tanggal_diperbarui }}</td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="11">Tidak ada produk ditemukan.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        <!-- Back Button -->
+        <div class="mb-4 text-center">
+            <a href="javascript:history.back()" class="flex items-center justify-center bg-yellow-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Kembali
+            </a>
+        </div>
 
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for product in products %}
+            <div class="bg-white shadow-lg border border-yellow-300 rounded-lg p-6">
+                <h2 class="text-xl font-bold text-yellow-600 mb-2">{{ product.nama }}</h2>
+                <p class="text-gray-700 mb-2"><strong>Harga:</strong> {{ product.harga }}</p>
+                <p class="text-gray-700 mb-2"><strong>Deskripsi:</strong> {{ product.deskripsi }}</p>
+                <p class="text-gray-700 mb-2"><strong>Stok:</strong> {{ product.stok }}</p>
+                <p class="text-gray-700 mb-2"><strong>Kategori:</strong> {{ product.kategori }}</p>
+                <p class="text-gray-700 mb-2"><strong>Ukuran:</strong> {{ product.ukuran }}</p>
+                <p class="text-gray-700 mb-2"><strong>Warna:</strong> {{ product.warna }}</p>
+                <p class="text-gray-700 mb-2"><strong>Diskon:</strong> {{ product.diskon }}</p>
+                <p class="text-gray-700 mb-2"><strong>Tanggal Dibuat:</strong> {{ product.tanggal_dibuat }}</p>
+                <p class="text-gray-700 mb-2"><strong>Tanggal Diperbarui:</strong> {{ product.tanggal_diperbarui }}</p>
 
-<a href="{% url 'main:tambah_produk' %}">Tambah Produk</a>
+                <div class="mt-4 flex justify-between">
+                    <a href="{% url 'main:edit_produk' product.id %}" class="bg-yellow-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out">
+                        Edit
+                    </a>
+                    <a href="{% url 'main:delete_produk' product.id %}" class="bg-red-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-700 transition duration-300 ease-in-out">
+                        Delete
+                    </a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-span-full text-center">
+                <p class="text-gray-700">Tidak ada produk ditemukan.</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-8 text-center">
+            <a href="{% url 'main:tambah_produk' %}" class="bg-yellow-500 text-white font-semibold px-6 py-3 rounded-lg hover:bg-yellow-600 transition duration-300 ease-in-out">
+                Tambah Produk
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}
-

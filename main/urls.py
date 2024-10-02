@@ -4,6 +4,9 @@ from main.views import tambah_produk, show_main, show_xml, show_json, show_xml_b
 from main.views import register
 from main.views import login_user
 from main.views import logout_user
+from main.views import edit_produk
+from main.views import delete_produk
+
 app_name = 'main'
 
 urlpatterns = [
@@ -17,4 +20,6 @@ urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login_user, name='login'),
     path('logout/', logout_user, name='logout'),
+    path('edit-produk/<uuid:id>/', edit_produk, name='edit_produk'),
+    path('delete-produk/<uuid:id>/', delete_produk, name='delete_produk'),
 ]

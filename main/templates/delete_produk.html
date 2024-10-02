@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="flex flex-col min-h-screen bg-gray-100">
+    <div class="container mx-auto px-4 py-8 mt-16 max-w-md">
+        <div class="bg-white shadow-lg border border-yellow-300 rounded-lg p-8">
+            <h1 class="text-3xl font-bold text-center text-yellow-600 mb-4">Hapus Produk</h1>
+
+            <p class="text-center mb-6">Apakah Anda yakin ingin menghapus produk "<strong>{{ produk.nama }}</strong>"?</p>
+
+            <form method="post" class="flex flex-col items-center">
+                {% csrf_token %}
+                <button type="submit" class="bg-red-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-red-700 transition duration-300 ease-in-out mb-4">
+                    Hapus Produk
+                </button>
+            </form>
+
+            <div class="text-center">
+                <a href="{% url 'main:daftar_produk' %}" class="text-yellow-600 underline hover:text-yellow-500">
+                    Cancel
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
