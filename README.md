@@ -946,3 +946,31 @@ Sedangkan Authorization adalah proses untuk menentukan hak akses user setelah me
 
 ### Cara Django mengingat user yang telah login
 Django mengelola sesi user menggunakan cookies untuk menyimpan informasi sesi. Saat user berhasil login, Django membuat sesi baru dan menyimpannya di server. Di sisi klien, Django mengirimkan cookie yang berisi ID sesi. Cookie tersebut digunakan untuk melacak status login user di seluruh aplikasi. Lalu, cookies juga menyimpan preferensi user, riwayat pencarian, dan item keranjang belanja. 
+
+
+# Tugas 2
+
+
+## Langkah Pengerjaan
+----------------------------
+- Dalam file base.html, saya membuat kerangka dasar untuk semua halaman dalam aplikasi BeliBaju. Saya menyusun struktur HTML yang mencakup elemen-elemen seperti <head> untuk pengaturan metadata, termasuk pemanggilan stylesheet dan font dari Google Fonts. Di bagian <body>, saya mengintegrasikan navigasi yang sticky dengan menggunakan Tailwind CSS, sehingga navbar tetap terlihat saat pengguna menggulir halaman. 
+- Pada file navbar.html, saya menambahkan elemen navigasi interaktif yang menyesuaikan dengan status autentikasi pengguna. Di sini, saya menyertakan tautan ke halaman produk dan form untuk menambahkan produk baru. Saya memastikan tampilan navbar responsif dengan menyertakan tombol menu mobile yang dapat memperlihatkan opsi-opsi navigasi saat perangkat berukuran kecil. JavaScript digunakan untuk mengontrol visibilitas menu mobile, sehingga meningkatkan pengalaman pengguna pada perangkat seluler.
+- lalu dalam file daftar_produk.html, saya mengimplementasikan halaman yang menampilkan daftar produk yang tersedia. Saya menggunakan grid layout untuk menyusun kartu produk dengan rapi dan memastikan informasi penting seperti nama, harga, deskripsi, dan stok ditampilkan dengan jelas. Saya juga menyertakan tombol untuk mengedit dan menghapus produk, yang terhubung langsung dengan fungsi yang sesuai di backend. Saya menambahkan elemen navigasi kembali ke halaman sebelumnya menggunakan tombol panah, sehingga pengguna dapat dengan mudah kembali tanpa kesulitan.
+- Saya menambahkan beberapa view di Django untuk menambah, mengedit, dan menghapus produk. Di sini, saya berfokus pada pembuatan antarmuka yang intuitif dan responsif. Saya juga menyusun URL yang relevan untuk setiap fungsi, memastikan bahwa semua tautan di navbar dan halaman produk saling terhubung dengan benar. Ini termasuk penggunaan metode GET dan POST untuk mengelola interaksi pengguna dengan produk, serta menerapkan autentikasi untuk mengamankan akses ke fungsi tertentu.
+- Lalu saya menggunakan Tailwind CSS untuk styling, yang memungkinkan saya mengatur tampilan dan nuansa aplikasi dengan cepat.
+
+
+### Urutan Prioritas CSS Selector
+Dalam CSS, urutan prioritas untuk pengambilan selector ditentukan oleh beberapa aturan. Pertama, ada aturan spesifisitas, di mana selector dengan spesifisitas yang lebih tinggi akan diutamakan. Spesifisitas dihitung berdasarkan jenis selector: ID (1), class (0.1), dan elemen (0.01). Jika beberapa selector diterapkan pada elemen yang sama, maka selector ID akan memiliki prioritas tertinggi, diikuti oleh selector class, dan terakhir selector elemen. Misalnya, jika ada satu selector ID, satu selector class, dan satu selector elemen yang diterapkan pada elemen yang sama, maka yang akan digunakan adalah style dari selector ID. Lalu, ada aturan cascading yang berarti bahwa jika dua aturan memiliki spesifisitas yang sama, aturan yang ditulis terakhir dalam file CSS akan diterapkan. 
+
+### Pentingnya Responsive Design
+Responsive design merupakan pendekatan penting dalam pengembangan aplikasi web karena memungkinkan tampilan konten yang optimal di berbagai device, mulai dari desktop hingga smartphone. Dengan meng-adjust tata letak, ukuran gambar, dan elemen lainnya sesuai dengan ukuran layar, user tidak perlu melakukan zoom in atau out. Lalu hal ini juga membantu dalam SEO, karena search engine lebih suka situs yang mobile-friendly.
+
+### Perbedaan Margin, Border, dan Padding
+Margin, border, dan padding merupakan tiga konsep penting dalam CSS yang berfungsi mengatur ruang di sekitar elemen HTML. Margin merupakan ruang luar yang mengelilingi elemen, memisahkan elemen tersebut dari elemen lain di sekitarnya. Border merupakan garis yang mengelilingi elemen, dan dapat memiliki warna, ketebalan, dan gaya yang berbeda. Padding merupakan ruang di dalam elemen antara konten dan border yang memberikan jarak antara isi elemen dengan batasnya.
+Untuk mengimplementasikan ketiga hal tersebut dalam CSS, developer dapat menggunakan properti `margin`, `border`, dan `padding`. Misalnya, untuk menambahkan margin, Anda bisa menggunakan `margin: 20px;` untuk memberikan ruang luar sebesar 20 piksel. Border dapat ditambahkan dengan `border: 1px solid black;` untuk memberikan garis hitam dengan ketebalan 1 piksel. Sedangkan padding bisa ditentukan dengan `padding: 15px;` untuk memberi ruang 15 piksel di dalam elemen. Kombinasi penggunaan ketiga properti ini akan menghasilkan tata letak yang lebih teratur dan estetis.
+
+### Konsep Flexbox dan Grid Layout
+Flexbox dan Grid Layout merupakan dua sistem layout CSS yang kuat untuk membantu merancang tata letak web yang responsif dan dinamis. Flexbox, atau Flexible Box Layout, dirancang untuk mengatur elemen dalam satu dimensi (baik secara horizontal maupun vertikal). Dengan menggunakan properti seperti `display: flex;`, elemen dapat dengan mudah diatur untuk mengisi ruang yang tersedia, dengan kemampuan untuk mengubah ukuran dan posisi secara dinamis berdasarkan ukuran layar. Flexbox sangat cocok untuk membuat menu navigasi atau komponen yang memerlukan pengaturan dalam satu baris atau kolom.
+
+Di sisi lain, Grid Layout dirancang untuk mengatur elemen dalam dua dimensi (baris dan kolom). Dengan menggunakan `display: grid;`, developer dapat membuat grid dengan berbagai ukuran dan memposisikan elemen di dalamnya secara lebih kompleks. Grid sangat berguna untuk layout yang lebih rumit, seperti galeri gambar atau tata letak halaman yang memerlukan pembagian yang lebih terstruktur. Keduanya memberikan fleksibilitas dan kontrol yang lebih besar dalam mengatur elemen di halaman web, dan keduanya sering digunakan bersamaan untuk menciptakan desain yang responsif dan menarik.
