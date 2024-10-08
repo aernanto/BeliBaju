@@ -34,48 +34,153 @@
     <h2 class="mt-8 text-2xl font-bold text-yellow-600">Daftar Produk</h2>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4">
-        {% if not products %}
-            <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center p-4 bg-yellow-200 rounded-lg">
-                <p>Belum ada produk yang tersedia di {{ nama_ecommerce }}.</p>
-            </div>
-        {% else %}
-            {% for product in products %}
-                <div class="bg-white shadow-md rounded-lg overflow-hidden">
-                    <img src="{{ product.image.url }}" alt="{{ product.nama }}" class="w-full h-48 object-cover" />
-                    <div class="p-4">
-                        <h3 class="text-lg font-bold text-yellow-600">{{ product.nama }}</h3>
-                        <p class="text-gray-700">Harga: Rp {{ product.harga }}</p>
-                        <p class="text-gray-600">{{ product.deskripsi }}</p>
-                        <p class="text-gray-600">Stok: {{ product.stok }}</p>
-                        <p class="text-gray-600">Kategori: {{ product.kategori }}</p>
-                        <p class="text-gray-600">Ukuran: {{ product.ukuran }}</p>
-                        <p class="text-gray-600">Warna: {{ product.warna }}</p>
-                        <p class="text-gray-600">Diskon: {{ product.diskon }}%</p>
-                        <p class="text-gray-400">Dibuat: {{ product.tanggal_dibuat }}</p>
-                        <p class="text-gray-400">Diperbarui: {{ product.tanggal_diperbarui }}</p>
-                        <div class="flex justify-between mt-4">
-                            <a href="{% url 'main:edit_produk' product.id %}" class="bg-yellow-500 text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-yellow-600">Edit</a>
-                            <a href="{% url 'main:delete_produk' product.id %}" class="bg-red-500 text-white font-bold py-2 px-4 rounded transition duration-300 hover:bg-red-600">Delete</a>
-                        </div>
-                    </div>
-                </div>
-            {% empty %}
-            <div class="col-span-1 sm:col-span-2 lg:col-span-3 text-center">
-                <p>Tidak ada produk ditemukan.</p>
-            </div>
-            {% endfor %}
-        {% endif %}
-    </div>
+        <div id="product_cards" class="col-span-1 sm:col-span-2 lg:col-span-3"></div>
+    </div>    
 
     <div class="flex justify-between mt-6">
         <a href="{% url 'main:tambah_produk' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded transition duration-300">
             Tambah Produk Baru
         </a>
 
+        <button data-modal-target="crudModal" class="bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-2 px-6 rounded transition duration-300" onclick="showModal();">
+            Add New Product by AJAX
+        </button>
+
         <a href="{% url 'main:logout' %}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded transition duration-300">
             Logout
         </a>
     </div>
+
+    <!-- Modal for Adding Products -->
+    <div id="crudModal" tabindex="-1" aria-hidden="true" class="hidden fixed inset-0 z-50 w-full flex items-center justify-center bg-gray-800 bg-opacity-50 overflow-x-hidden overflow-y-auto transition-opacity duration-300 ease-out">
+        <div id="crudModalContent" class="relative bg-white rounded-lg shadow-lg w-5/6 sm:w-3/4 md:w-1/2 lg:w-1/3 mx-4 sm:mx-0 transform scale-95 opacity-0 transition-transform transition-opacity duration-300 ease-out">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 border-b rounded-t">
+                <h3 class="text-xl font-semibold text-gray-900">Add New Product</h3>
+                <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center" id="closeModalBtn">
+                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="sr-only">Close modal</span>
+                </button>
+            </div>
+            <!-- Modal body -->
+            <div class="px-6 py-4 space-y-6 form-style">
+                <form id="productEntryForm">
+                    <div class="mb-4">
+                        <label for="productName" class="block text-sm font-medium text-gray-700">Product Name</label>
+                        <input type="text" id="productName" name="product_name" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter product name" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="productPrice" class="block text-sm font-medium text-gray-700">Product Price</label>
+                        <input type="number" id="productPrice" name="product_price" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter product price" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="productDescription" class="block text-sm font-medium text-gray-700">Product Description</label>
+                        <textarea id="productDescription" name="product_description" rows="3" class="mt-1 block w-full h-52 resize-none border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Describe the product" required></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label for="productStock" class="block text-sm font-medium text-gray-700">Product Stock</label>
+                        <input type="number" id="productStock" name="product_stock" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter product stock" required>
+                    </div>
+                    <div class="mb-4">
+                        <label for="productCategory" class="block text-sm font-medium text-gray-700">Product Category</label>
+                        <input type="text" id="productCategory" name="product_category" class="mt-1 block w-full border border-gray-300 rounded-md p-2 hover:border-indigo-700" placeholder="Enter product category" required>
+                    </div>
+                </form>
+            </div>
+            <!-- Modal footer -->
+            <div class="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-2 p-6 border-t border-gray-200 rounded-b justify-center md:justify-end">
+                <button type="button" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-lg" id="cancelButton">Cancel</button>
+                <button type="submit" id="submitProductEntry" form="productEntryForm" class="bg-indigo-700 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg">Save</button>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-{% endblock content %}
+<script>
+    async function getProducts() {
+        return fetch("{% url 'main:show_json' %}").then((res) => res.json());
+    }
+
+    async function refreshProducts() {
+        document.getElementById("product_cards").innerHTML = "";
+        const products = await getProducts();
+        let htmlString = "";
+        let classNameString = "";
+
+        if (products.length === 0) {
+            classNameString = "flex flex-col items-center justify-center min-h-[24rem] p-6";
+            htmlString = `
+                <div class="flex flex-col items-center justify-center min-h-[24rem] p-6">
+                    <p class="text-center text-gray-600 mt-4">Belum ada produk yang tersedia di {{ nama_ecommerce }}.</p>
+                </div>
+            `;
+        } else {
+            classNameString = "columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6 w-full";
+            products.forEach((item) => {
+                htmlString += `
+                <div class="relative break-inside-avoid">
+                    <div class="relative bg-indigo-200 p-6 rounded-lg shadow-md transition duration-300 hover:scale-105">
+                        <h3 class="text-lg font-bold text-indigo-800">${item.product_name}</h3>
+                        <p class="mt-2 text-sm text-gray-600">Description: ${item.product_description}</p>
+                        <p class="mt-1 text-gray-900 font-semibold">Price: $${item.product_price}</p>
+                        <p class="mt-1 text-gray-900 font-semibold">Stock: ${item.product_stock}</p>
+                        <p class="mt-1 text-gray-900 font-semibold">Category: ${item.product_category}</p>
+                    </div>
+                </div>
+                `;
+            });
+        }
+
+        document.getElementById("product_cards").className = classNameString;
+        document.getElementById("product_cards").innerHTML = htmlString;
+    }
+
+    function showModal() {
+        const modal = document.getElementById('crudModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        document.getElementById("crudModalContent").classList.remove("scale-95", "opacity-0");
+        document.getElementById("crudModalContent").classList.add("scale-100", "opacity-100");
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('crudModal');
+        modal.classList.remove('flex');
+        modal.classList.add('hidden');
+        document.getElementById("crudModalContent").classList.remove("scale-100", "opacity-100");
+        document.getElementById("crudModalContent").classList.add("scale-95", "opacity-0");
+    }
+
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    document.getElementById('cancelButton').addEventListener('click', closeModal);
+
+    document.getElementById('submitProductEntry').addEventListener('click', async function(event) {
+        event.preventDefault();  
+
+        const formData = new FormData(document.getElementById('productEntryForm'));
+        const formDataJSON = Object.fromEntries(formData.entries());  // Convert form data to JSON
+
+        const response = await fetch("{% url 'main:tambah_produk' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}',  
+            },
+            body: JSON.stringify(formDataJSON)  
+        });
+
+        if (response.ok) {
+            closeModal();  
+            refreshProducts();  
+            document.getElementById('productEntryForm').reset(); 
+        } else {
+            console.error("Failed to add product");
+        }
+    });
+
+    window.onload = refreshProducts;  
+</script>
+{% endblock %}

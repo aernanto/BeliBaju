@@ -11,6 +11,15 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
+
+def home(request):
+    products = Product.objects.all()  
+    context = {
+        'products': products,  
+    }
+    return render(request, "home.html", context)  
 
 def tambah_produk(request):
     if request.method == 'POST':
@@ -25,11 +34,37 @@ def tambah_produk(request):
 
     return render(request, 'tambah-produk.html', {'form': form})  # Render form di template
 
+@csrf_exempt
+@require_POST
+def tambah_produk_ajax(request):
+    nama = request.POST.get("nama")
+    harga = request.POST.get("harga")
+    deskripsi = request.POST.get("deskripsi")
+    stok = request.POST.get("stok")
+    kategori = request.POST.get("kategori")
+    ukuran = request.POST.get("ukuran")
+    warna = request.POST.get("warna")
+    diskon = request.POST.get("diskon")
+    user = request.user
+
+    produk_baru = Product(
+        nama=nama,
+        harga=harga,
+        deskripsi=deskripsi,
+        stok=stok,
+        kategori=kategori,
+        ukuran=ukuran,
+        warna=warna,
+        diskon=diskon,
+        user=user
+    )
+    produk_baru.save()
+
+    return HttpResponse(b"CREATED", status=201)
+
 @login_required(login_url='/login')
 def daftar_produk(request):
-    products = Product.objects.filter(user=request.user)  # Filter produk berdasarkan pengguna yang login
-    context = {'products': products}
-    return render(request, 'daftar_produk.html', context)  # Render daftar produk
+    return render(request, 'daftar_produk.html')  # Render daftar produk
 
 @login_required(login_url='/login')
 def edit_produk(request, id):
@@ -45,7 +80,7 @@ def edit_produk(request, id):
     else:
         form = ProductForm(instance=produk)  # Populate form dengan data produk jika bukan POST
 
-    return render(request, 'edit-produk.html', {'form': form})  # Render form edit
+    return render(request, 'main/edit-produk.html', {'form': form})  # Render form edit
 
 @login_required(login_url='/login')
 def delete_produk(request, id):
@@ -79,7 +114,9 @@ def login_user(request):
             response.set_cookie('last_login', str(datetime.datetime.now()))  # Set cookie last_login
             return response
     else:
-        form = AuthenticationForm(request)
+        form = AuthenticationForm()  # Membuat form AuthenticationForm baru untuk request GET
+        messages.error(request, "Invalid username or password. Please try again.")
+
     return render(request, 'login.html', {'form': form})
 
 def logout_user(request):
@@ -102,11 +139,11 @@ def show_main(request):
     return render(request, "main.html", context)  # Render main page dengan context
 
 def show_xml(request):
-    data = Product.objects.all()
+    data = Product.objects.filter(user=request.user)
     return HttpResponse(serializers.serialize("xml", data), content_type="application/xml")
 
 def show_json(request):
-    products = Product.objects.all()
+    products = Product.objects.filter(user=request.user)
     data = list(products.values('id', 'nama', 'harga', 'deskripsi', 'stok', 'kategori', 'ukuran', 'warna', 'diskon', 'tanggal_dibuat', 'tanggal_diperbarui'))
     return JsonResponse(data, safe=False, json_dumps_params={'indent': 2})  # Added indent for readability
 
