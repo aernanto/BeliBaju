@@ -974,3 +974,63 @@ Untuk mengimplementasikan ketiga hal tersebut dalam CSS, developer dapat menggun
 Flexbox dan Grid Layout merupakan dua sistem layout CSS yang kuat untuk membantu merancang tata letak web yang responsif dan dinamis. Flexbox, atau Flexible Box Layout, dirancang untuk mengatur elemen dalam satu dimensi (baik secara horizontal maupun vertikal). Dengan menggunakan properti seperti `display: flex;`, elemen dapat dengan mudah diatur untuk mengisi ruang yang tersedia, dengan kemampuan untuk mengubah ukuran dan posisi secara dinamis berdasarkan ukuran layar. Flexbox sangat cocok untuk membuat menu navigasi atau komponen yang memerlukan pengaturan dalam satu baris atau kolom.
 
 Di sisi lain, Grid Layout dirancang untuk mengatur elemen dalam dua dimensi (baris dan kolom). Dengan menggunakan `display: grid;`, developer dapat membuat grid dengan berbagai ukuran dan memposisikan elemen di dalamnya secara lebih kompleks. Grid sangat berguna untuk layout yang lebih rumit, seperti galeri gambar atau tata letak halaman yang memerlukan pembagian yang lebih terstruktur. Keduanya memberikan fleksibilitas dan kontrol yang lebih besar dalam mengatur elemen di halaman web, dan keduanya sering digunakan bersamaan untuk menciptakan desain yang responsif dan menarik.
+
+
+# Tugas 6
+
+
+## Langkah Pengerjaan
+----------------------------
+### **Langkah Pertama**
+- Pertama-tama, saya menambahkan Error Message Pada Login saya, sehingga akan menjadi seperti:
+```
+def login_user(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            user = form.get_user()
+            login(request, user)
+            response = HttpResponseRedirect(reverse("main:show_main"))
+            response.set_cookie('last_login', str(datetime.datetime.now()))  # Set cookie last_login
+            return response
+    else:
+        form = AuthenticationForm()  # Membuat form AuthenticationForm baru untuk request GET
+        messages.error(request, "Invalid username or password. Please try again.")
+
+    return render(request, 'login.html', {'form': form})
+```
+- Kemudian saya memmbuat Fungsi untuk Menambahkan Mood dengan AJAX
+```
+@csrf_exempt
+@require_POST
+def tambah_produk_ajax(request):
+    nama = request.POST.get("nama")
+    harga = request.POST.get("harga")
+    deskripsi = request.POST.get("deskripsi")
+    stok = request.POST.get("stok")
+    kategori = request.POST.get("kategori")
+    ukuran = request.POST.get("ukuran")
+    warna = request.POST.get("warna")
+    diskon = request.POST.get("diskon")
+    user = request.user
+
+    produk_baru = Product(
+        nama=nama,
+        harga=harga,
+        deskripsi=deskripsi,
+        stok=stok,
+        kategori=kategori,
+        ukuran=ukuran,
+        warna=warna,
+        diskon=diskon,
+        user=user
+    )
+    produk_baru.save()
+
+    return HttpResponse(b"CREATED", status=201)
+```
+- JavaScript memiliki peran penting dalam pengembangan aplikasi web karena memungkinkan interaksi dinamis dan responsif. Dengan JavaScript, pengembang dapat memperbarui konten halaman secara real-time tanpa perlu melakukan reload seluruh halaman, yang sangat meningkatkan pengalaman pengguna. Selain itu, kemampuan untuk mengelola elemen DOM langsung di sisi client memudahkan proses manipulasi konten secara cepat dan efisien. Dalam konteks framework modern seperti React atau Vue.js, JavaScript juga memberikan struktur yang baik untuk mengembangkan aplikasi dengan antarmuka yang kompleks dan modular.
+- Fungsi await dalam fetch() sangat penting karena memastikan JavaScript menunggu respons dari server sebelum melanjutkan eksekusi kode berikutnya. Dengan menggunakan await, kita bisa menghindari situasi di mana data dari server belum siap tetapi sudah diproses oleh kode yang seharusnya menunggu hasil tersebut. Tanpa await, proses fetch() berjalan secara asinkron, sehingga kode setelahnya bisa dijalankan lebih dulu, yang bisa mengakibatkan error atau data yang ditampilkan tidak lengkap. Sebagai contoh, jika kita melakukan fetch data produk dari server dan tidak menggunakan await, data yang ditampilkan mungkin belum tersedia dan hasilnya akan salah atau tidak ada sama sekali.
+- Decorator csrf_exempt diperlukan pada view yang menggunakan AJAX POST karena Django secara default melindungi setiap permintaan POST dengan CSRF token untuk mencegah serangan Cross-Site Request Forgery. Jika token CSRF tidak dikirimkan dalam permintaan AJAX POST, maka Django akan menolak permintaan tersebut. Penggunaan csrf_exempt memungkinkan kita untuk menonaktifkan pengecekan token CSRF pada view tertentu sehingga permintaan AJAX POST dapat tetap diproses. Namun, penggunaan decorator ini harus dilakukan dengan hati-hati, hanya pada permintaan yang benar-benar aman, karena menonaktifkan CSRF bisa membuka celah keamanan jika tidak diterapkan dengan benar.
+- Validasi data di backend sangat penting meskipun validasi di frontend juga dilakukan. Alasan utamanya adalah keamanan dan integritas data. Validasi di frontend memang bisa memberikan umpan balik yang cepat kepada pengguna, tetapi data yang dikirim melalui frontend dapat dimanipulasi menggunakan alat seperti developer tools. Oleh karena itu, validasi di backend berfungsi sebagai lapisan perlindungan terakhir untuk memastikan data yang diterima server sudah benar dan aman. Backend juga memastikan bahwa semua data yang masuk melalui API atau form mengikuti aturan yang ditetapkan tanpa bergantung pada bagaimana data tersebut dikirim.
+- Untuk implementasi checklist secara step-by-step, saya memulainya dengan menyiapkan view dan template di Django yang akan menampilkan data dari database. Setelah itu, saya menambahkan fungsionalitas AJAX menggunakan JavaScript dengan fetch() yang menangani permintaan GET dan POST. await saya gunakan untuk memastikan respons dari server sudah siap sebelum memperbarui tampilan di halaman. Selanjutnya, saya menambahkan modal form yang dirancang menggunakan Tailwind CSS untuk pengiriman data baru melalui AJAX POST. Di backend, saya menerapkan validasi untuk memastikan data yang dikirim melalui form tersebut sudah sesuai. Setelah data berhasil divalidasi, saya memastikan bahwa halaman diperbarui secara dinamis menggunakan JavaScript tanpa perlu melakukan reload penuh, sehingga interaksi pengguna tetap lancar dan cepat.
