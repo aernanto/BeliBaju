@@ -42,3 +42,11 @@ class Product(models.Model):
     class Meta:
         ordering = ['-tanggal_dibuat']
         verbose_name_plural = 'Products'
+
+# class Project(models.Model):
+#     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+#     nama = models.CharField(max_length=270, verbose_name="Nama Project")
+
+# class Employee(models.Model):
+#     projects = models.ManyToManyField(Project)
+#     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='products', verbose_name="Pengguna")
